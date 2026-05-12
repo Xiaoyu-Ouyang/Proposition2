@@ -1,0 +1,183 @@
+\documentclass[12pt]{article}
+
+% --- Formatting per candidacy requirements -------------------------------
+% Proposition limit: 15 double-spaced pages, excluding front matter
+% and references.
+% This is the OUT-OF-FIELD proposition (clearly labeled below).
+% -------------------------------------------------------------------------
+
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage{setspace}
+\doublespacing
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{physics}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage[capitalize,noabbrev]{cleveref}
+
+\usepackage[
+  backend=biber,
+  style=numeric-comp,
+  sorting=none,
+  giveninits=true,
+  maxbibnames=10
+]{biblatex}
+% biber handles paths with spaces; bibtex would not.
+\addbibresource{Quantum Crypto/Quantum Crypto.bib}
+
+\graphicspath{{figures/}}
+
+\title{Proposition 2 (Out-of-Field) \\[0.25em]
+       \large Public-Key Quantum Money}
+\author{Xiangzhi (Sam) Ouyang}
+\date{\today}
+
+\begin{document}
+
+% --- Front matter (excluded from page count) -----------------------------
+\begin{titlepage}
+  \centering
+  \vspace*{2cm}
+  {\Large \bfseries Candidacy Proposition 2\par}
+  \vspace{0.5cm}
+  {\Large \bfseries\color{red!60!black} OUT-OF-FIELD PROPOSITION\par}
+  \vspace{1.5cm}
+  {\LARGE Public-Key Quantum Money\par}
+  \vspace{2cm}
+  {\large Xiangzhi (Sam) Ouyang \par}
+  \vspace{0.5cm}
+  {\normalsize \texttt{xouyang@caltech.edu} \par}
+  \vspace{1.5cm}
+  {\normalsize Division of Chemistry and Chemical Engineering \\
+               California Institute of Technology \par}
+  \vfill
+  {\normalsize Submitted \today \par}
+\end{titlepage}
+
+\begin{center}
+  \fbox{\parbox{0.85\linewidth}{\centering
+    \textbf{This proposition is clearly out-of-field}
+    with respect to the candidate's thesis research in
+    tensor-network methods for chemical dynamics. The topic is
+    public-key quantum money, a problem in quantum cryptography and
+    complexity theory, and is of a nature that would not be
+    undertaken by the candidate's research group.}}
+\end{center}
+
+\vspace{1em}
+
+\begin{singlespace}
+\tableofcontents
+\end{singlespace}
+\newpage
+
+\begin{abstract}
+\noindent
+\textit{[One paragraph: central claim, security model, construction
+idea, validation plan, why it is out-of-field.]}
+\end{abstract}
+
+% --- Body (counts toward the 15-page limit) ------------------------------
+\setcounter{page}{1}
+
+\section{Central Claim}
+\label{sec:claim}
+\textit{[One sentence: the proposed construction yields a
+publicly-verifiable, unforgeable quantum money scheme under a stated
+hardness assumption.]}
+
+\section{Background}
+\label{sec:background}
+
+\subsection{Wiesner's private-key quantum money}
+\textit{[Original BB-style construction and its central limitation:
+verification requires the mint.]}
+
+\subsection{The public-key problem}
+\textit{[Statement of the problem, why no-cloning alone is
+insufficient for public verification, and why a computational
+assumption is required~\parencite{aaronsonQuantumCopyProtectionQuantum2009}.]}
+
+\subsection{Recent landscape}
+\textit{[Lattice-based, knot-based, group-action-based, and
+quantum-lightning constructions; what is currently believed secure
+versus broken.]}
+
+\section{Security Model}
+\label{sec:security}
+
+\subsection{Syntax}
+\textit{[\textsc{KeyGen}, \textsc{Mint}, \textsc{Verify}, with
+correctness and verifiability definitions.]}
+
+\subsection{Unforgeability game}
+\textit{[Adversary receives one banknote, attempts to output two
+states that both pass \textsc{Verify}; advantage definition.]}
+
+\subsection{Assumption}
+\textit{[Concrete computational assumption the security proof reduces
+to; why this assumption is plausibly post-quantum hard.]}
+
+\section{Proposed Construction}
+\label{sec:construction}
+
+\subsection{Banknote state}
+\textit{[Description of $|\$\rangle$ in terms of the underlying
+mathematical structure.]}
+
+\subsection{Minting procedure}
+\textit{[Efficient quantum circuit for state preparation;
+classical serial number derivation.]}
+
+\subsection{Public verification}
+\textit{[Verification circuit, completeness, and soundness analysis
+sketch.]}
+
+\section{Security Argument}
+\label{sec:proof-sketch}
+\textit{[Reduction from a forging adversary to the stated assumption;
+identify the technical bottleneck and what tools (e.g.\ compressed
+oracle, Fourier-extraction duality, t-design arguments) the proof
+relies on.]}
+
+\section{Validation Plan}
+\label{sec:validation}
+
+\subsection{Cryptanalytic stress tests}
+\textit{[Known attacks to attempt: linear-algebra forgery, learning
+attacks, group-action shortcuts.]}
+
+\subsection{Resource estimation}
+\textit{[Qubit count, circuit depth, error tolerance for a
+near-term-relevant security parameter.]}
+
+\section{Out-of-Field Justification}
+\label{sec:outoffield}
+\textit{[Explicit statement: this topic lies in quantum
+cryptography/complexity theory and is unrelated to the candidate's
+work on tensor-network methods for chemical dynamics. It is not a
+project the candidate's research group would pursue.]}
+
+\section{Risks and Open Questions}
+\label{sec:risks}
+
+\paragraph{Assumption fragility.}
+\textit{[Risk + fallback.]}
+\paragraph{Verification efficiency.}
+\textit{[Risk + fallback.]}
+\paragraph{Cloning attacks via learning.}
+\textit{[Risk + fallback.]}
+
+% --- References (excluded from page count) -------------------------------
+\begin{singlespace}
+\printbibliography
+\end{singlespace}
+
+\end{document}
