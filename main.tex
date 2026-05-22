@@ -1,197 +1,80 @@
-\documentclass[11pt]{article}
+\documentclass[12pt]{article}
 
-\usepackage[margin=1in]{geometry}
+% --- Formatting per candidacy requirements -------------------------------
+% Proposition limit: 15 double-spaced pages, excluding front matter
+% and references.
+% This is the OUT-OF-FIELD proposition.
+% -------------------------------------------------------------------------
 
-\usepackage{multirow}
-\usepackage{amssymb,amsmath,amsthm,amsfonts}
-\usepackage{bm}
-\usepackage{textgreek}
-\usepackage{mathtools}
-\usepackage{enumitem}
-\usepackage[numbers,comma,sort&compress]{natbib}
-\usepackage{authblk}
-\usepackage{graphicx}
-\usepackage[font=small]{caption}
-\usepackage{subcaption} % [labelformat=simple]
-\usepackage{tablefootnote} 
-\usepackage{float}
-\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
-\usepackage{algorithmic}
-\renewcommand{\algorithmicrequire}{\textbf{Input: }}  
-\renewcommand{\algorithmicensure}{\textbf{Output: }}
+
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage{setspace}
+\doublespacing
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+\usepackage{amsmath,amssymb,amsthm,mathtools}
 \usepackage{physics}
-\usepackage{footnote}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{siunitx}
 \usepackage{xcolor}
-\usepackage{mathrsfs}
-\usepackage{bbm}
-\usepackage{makecell}
-\usepackage{pbox}
+\usepackage[hidelinks]{hyperref}
+\usepackage[capitalize,noabbrev]{cleveref}
 
-\usepackage[colorlinks]{hyperref}
-\hypersetup{citecolor=blue}
-% \urlstyle{same}
+\usepackage[
+  backend=biber,
+  style=numeric-comp,
+  sorting=none,
+  giveninits=true,
+  maxbibnames=10,
+  url=false
+]{biblatex}
+\addbibresource{Quantum Crypto/Quantum Crypto.bib}
 
-\captionsetup[figure]{labelfont=bf}
+\graphicspath{{figures/}}
 
-\newtheorem{fact}{Fact}[section] 
-
-\newtheorem{theorem}{Theorem}
-\newtheorem{definition}{Definition}
-\newtheorem{lemma}{Lemma}
-\newtheorem{proposition}{Proposition}
-\newtheorem{example}{Example}
-\newtheorem{corollary}{Corollary}
-\newtheorem{remark}{Remark}
-\newtheorem{assumption}{Assumption}
-
-\newcommand{\eqn}[1]{(\ref{eqn:#1})}
-\newcommand{\eq}[1]{(\ref{eq:#1})}
-\newcommand{\prb}[1]{(\ref{prb:#1})}
-\newcommand{\thm}[1]{\hyperref[thm:#1]{Theorem~\ref*{thm:#1}}}
-\newcommand{\cor}[1]{\hyperref[cor:#1]{Corollary~\ref*{cor:#1}}}
-\newcommand{\defn}[1]{\hyperref[defn:#1]{Definition~\ref*{defn:#1}}}
-\newcommand{\lem}[1]{\hyperref[lem:#1]{Lemma~\ref*{lem:#1}}}
-\newcommand{\prop}[1]{\hyperref[prop:#1]{Proposition~\ref*{prop:#1}}}
-\newcommand{\assum}[1]{\hyperref[assum:#1]{Assumption~\ref*{assum:#1}}}
-\newcommand{\fig}[1]{\hyperref[fig:#1]{Figure~\ref*{fig:#1}}}
-\newcommand{\tab}[1]{\hyperref[tab:#1]{Table~\ref*{tab:#1}}}
-\newcommand{\algo}[1]{\hyperref[algo:#1]{Algorithm~\ref*{algo:#1}}}
-\renewcommand{\sec}[1]{\hyperref[sec:#1]{Section~\ref*{sec:#1}}}
-\newcommand{\append}[1]{\hyperref[append:#1]{Appendix~\ref*{append:#1}}}
-\newcommand{\fac}[1]{\hyperref[fac:#1]{Fact~\ref*{fac:#1}}}
-\newcommand{\lin}[1]{\hyperref[lin:#1]{Line~\ref*{lin:#1}}}
-\newcommand{\itm}[1]{\ref{itm:#1}}
-
-\renewcommand{\arraystretch}{1.25}
-
-\newcommand{\algname}[1]{\textup{\texttt{#1}}}
-
-\def\>{\rangle}
-\def\<{\langle}
-\def\trans{^{\top}}
-
-\newcommand{\vect}[1]{\ensuremath{\mathbf{#1}}}
-\newcommand{\x}{\ensuremath{\mathbf{x}}}
-
-\newcommand{\N}{\mathbb{N}}
-\newcommand{\Z}{\mathbb{Z}}
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\C}{\mathbb{C}}
-\renewcommand{\P}{\mathbb{P}}
-\newcommand{\Q}{\mathbb{Q}}
-\newcommand{\E}{\mathbb{E}}
-\newcommand{\M}{\mathcal{M}}
-\renewcommand{\H}{\mathcal{H}}
-\newcommand{\cheb}{\mathcal{T}}
-
-\newcommand{\D}{{\mathscr{D}}}
-
-\let\var\relax
-
-\DeclareMathOperator{\poly}{poly}
-\DeclareMathOperator{\spn}{span}
-\DeclareMathOperator{\anc}{anc}
-\DeclareMathOperator{\Var}{Var}
-\DeclareMathOperator{\var}{var}
-\DeclareMathOperator{\inv}{inv}
-\DeclareMathOperator{\nrm}{norm}
-\DeclareMathOperator{\diag}{diag}
-\DeclareMathOperator{\st}{St}
-\DeclareMathOperator{\hamt}{HAM-T}
-\DeclareMathOperator{\supp}{supp}
-\DeclareMathOperator{\quan}{quantum}
-
-
-%\providecommand{\sgn}[1]{\mathrm{sgn}\left(#1\right)}
-%\providecommand{\rank}[1]{\mathrm{rank}\!\left(#1\right)}
-%\providecommand{\eend}[1]{\mathrm{End}\left(#1\right)}
-
-\renewcommand{\d}{\mathrm{d}}
-\renewcommand{\x}{\vect{x}}
-\newcommand{\y}{\vect{y}}
-\newcommand{\z}{\vect{z}}
-\renewcommand{\v}{\vect{v}}
-\renewcommand{\u}{\vect{u}}
-\newcommand{\0}{\mathbf{0}}
-\renewcommand{\emptyset}{\varnothing}
-\def\Tr{\operatorname{Tr}}\def\atanh{\operatorname{atanh}}\def\:{\hbox{\bf:}}
-\newcommand{\range}[1]{[#1]}
-\newcommand{\rangez}[1]{[{#1}]_0}
-
-\newcommand{\tO}{\tilde{O}}
-\newcommand{\tOmega}{\tilde{\Omega}}
-\newcommand{\tTheta}{\tilde{\Theta}}
-\newcommand{\tJ}{{\tilde{J}}}
-\newcommand{\tH}{{\tilde{H}}}
-\newcommand{\tU}{{\tilde{U}}}
-\newcommand{\ttau}{{\tilde{\tau}}}
-\newcommand{\otH}{{\overline{\tilde{H}}}}
-
-\newcommand{\cX}{\mathcal{X}}
-\newcommand{\cY}{\mathcal{Y}}
-\newcommand{\cS}{\mathcal{S}}
-\newcommand{\cV}{\mathcal{V}}
-\newcommand{\cC}{\mathcal{C}}
-
-\newcommand{\oH}{\overline{H}}
-\newcommand{\oh}{\overline{h}}
-\newcommand{\oW}{\overline{W}}
-
-% \newcommand{\bs}{{\bm{s}}}
-\newcommand{\blambda}{{\bm{\Lambda}}}
-\newcommand{\bi}{{\bm{i}}}
-\newcommand{\bj}{{\bm{j}}}
-
-\newcommand{\plg}{\Pi_{>\Lambda}}
-\newcommand{\pll}{\Pi_{\leq\Lambda}}
-\newcommand{\plpg}{\Pi_{>\Lambda'}}
-\newcommand{\plpl}{\Pi_{\leq\Lambda'}}
-
-\newcommand{\pdg}{\Pi_{>\Delta}}
-\newcommand{\pdl}{\Pi_{\leq\Delta}}
-\newcommand{\pdpg}{\Pi_{>\Delta'}}
-\newcommand{\pdpl}{\Pi_{\leq\Delta'}}
-
-\newcommand{\pl}[1]{\Pi_{\leq\Lambda_{#1}}}
-
-\newcommand{\A}{\mathcal{A}}
-\newcommand{\Adet}{\mathcal{A}_{\text{det}}}
-\newcommand{\Arand}{\mathcal{A}_{\text{rand}}}
-
-\newcommand{\hd}[1]{\vspace{4mm} \noindent \textbf{#1}}
-\def \eps {\epsilon}
-
-\let\oldnl\nl
-\newcommand{\nonl}{\renewcommand{\nl}{\let\nl\oldnl}}
-
-\def\andname{\hspace*{-0.5em},}
-
-\newcommand{\tyl}[1]{{\color{red}{Tongyang: \textbf{#1}}}}
-\newcommand{\sz}[1]{{\color{blue}{Shuo Zhou: \textbf{#1}}}}
-\newcommand{\wyg}[1]{{\color{brown}{Weiyuan: \textbf{#1}}}}
-\usepackage{cleveref}
-
-
-\newcommand{\red}[1]{{\color{red}{{#1}}}}
-%You can add your own command here
-\usepackage{authblk}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Proposition 2 (Out-of-Field) \\[0.25em]
+       \large Public-Key Quantum Money}
+\author{Xiangzhi (Sam) Ouyang}
+\date{\today}
 
 \begin{document}
 
-\title{Public-Key Quantum Money}
-\author{Time-dependent folks}
-%\author[1]{}
-% \quad
-% \author[2]{}
+% --- Front matter (excluded from page count) -----------------------------
+\begin{titlepage}
+  \centering
+  \vspace*{2cm}
+  {\Large \bfseries Candidacy Proposition 2\par}
+  \vspace{0.5cm}
+  {\large \textit{Out-of-field}\par}
+  \vspace{1.5cm}
+  {\LARGE Public-Key Quantum Money\par}
+  \vspace{2cm}
+  {\large Xiao-Yu Ouyang \par}
+  \vspace{0.5cm}
+  {\normalsize \texttt{xouyang@caltech.edu} \par}
+  \vspace{1.5cm}
+  {\normalsize Division of Chemistry and Chemical Engineering \\
+               California Institute of Technology \par}
+  \vfill
+  {\normalsize Submitted \today \par}
+\end{titlepage}
 
-%\affil[1]{}
-%\affil[2]{}
-%\affil[3]{}
+\begin{singlespace}
+\tableofcontents
+\end{singlespace}
+\newpage
 
+\begin{abstract}
+\noindent
 
-\date{}
-\maketitle
+\end{abstract}
+
+% --- Body (counts toward the 15-page limit) ------------------------------
+\setcounter{page}{1}
 
 \section{Introduction}
 How to create a Hamiltonian $H$ such that given $k$ copies of the ground state of $H$, generating another copy of the ground state is hard? This has implication to quantum advantage in creating the best store of value. In particular, we want a better version of quantum money where no one can create the verifiable quantum states for free. For example, in public-key quantum money, the central bank can create the quantum states for free. This yields the risk of central bank just printing money when they need to.
@@ -295,6 +178,8 @@ Let $G$ be a group acting on set $X$, denoted $g \star x$.
     \item Leads to \textbf{One-Shot Signatures} and \textbf{Quantum Money}.
     \item Connections to Classical Oracles, iO, and sub-exponential LWE.
 \end{itemize}
-%\bibliographystyle{qubit}
-%\bibliography{QSimLowEnergy}
+% --- References (excluded from page count) -------------------------------
+\begin{singlespace}
+\printbibliography
+\end{singlespace}
 \end{document}
