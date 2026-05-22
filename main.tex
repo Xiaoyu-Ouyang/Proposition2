@@ -1,183 +1,300 @@
-\documentclass[12pt]{article}
+\documentclass[11pt]{article}
 
-% --- Formatting per candidacy requirements -------------------------------
-% Proposition limit: 15 double-spaced pages, excluding front matter
-% and references.
-% This is the OUT-OF-FIELD proposition (clearly labeled below).
-% -------------------------------------------------------------------------
+\usepackage[margin=1in]{geometry}
 
-\usepackage[letterpaper,margin=1in]{geometry}
-\usepackage{setspace}
-\doublespacing
-
-\usepackage[T1]{fontenc}
-\usepackage{lmodern}
-\usepackage{microtype}
-
-\usepackage{amsmath,amssymb,amsthm,mathtools}
-\usepackage{physics}
+\usepackage{multirow}
+\usepackage{amssymb,amsmath,amsthm,amsfonts}
+\usepackage{bm}
+\usepackage{textgreek}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage[numbers,comma,sort&compress]{natbib}
+\usepackage{authblk}
 \usepackage{graphicx}
-\usepackage{booktabs}
+\usepackage[font=small]{caption}
+\usepackage{subcaption} % [labelformat=simple]
+\usepackage{tablefootnote} 
+\usepackage{float}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\usepackage{algorithmic}
+\renewcommand{\algorithmicrequire}{\textbf{Input: }}  
+\renewcommand{\algorithmicensure}{\textbf{Output: }}
+\usepackage{physics}
+\usepackage{footnote}
 \usepackage{xcolor}
-\usepackage[hidelinks]{hyperref}
-\usepackage[capitalize,noabbrev]{cleveref}
+\usepackage{mathrsfs}
+\usepackage{bbm}
+\usepackage{makecell}
+\usepackage{pbox}
 
-\usepackage[
-  backend=biber,
-  style=numeric-comp,
-  sorting=none,
-  giveninits=true,
-  maxbibnames=10
-]{biblatex}
-% biber handles paths with spaces; bibtex would not.
-\addbibresource{Quantum Crypto/Quantum Crypto.bib}
+\usepackage[colorlinks]{hyperref}
+\hypersetup{citecolor=blue}
+% \urlstyle{same}
 
-\graphicspath{{figures/}}
+\captionsetup[figure]{labelfont=bf}
 
-\title{Proposition 2 (Out-of-Field) \\[0.25em]
-       \large Public-Key Quantum Money}
-\author{Xiangzhi (Sam) Ouyang}
-\date{\today}
+\newtheorem{fact}{Fact}[section] 
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{example}{Example}
+\newtheorem{corollary}{Corollary}
+\newtheorem{remark}{Remark}
+\newtheorem{assumption}{Assumption}
+
+\newcommand{\eqn}[1]{(\ref{eqn:#1})}
+\newcommand{\eq}[1]{(\ref{eq:#1})}
+\newcommand{\prb}[1]{(\ref{prb:#1})}
+\newcommand{\thm}[1]{\hyperref[thm:#1]{Theorem~\ref*{thm:#1}}}
+\newcommand{\cor}[1]{\hyperref[cor:#1]{Corollary~\ref*{cor:#1}}}
+\newcommand{\defn}[1]{\hyperref[defn:#1]{Definition~\ref*{defn:#1}}}
+\newcommand{\lem}[1]{\hyperref[lem:#1]{Lemma~\ref*{lem:#1}}}
+\newcommand{\prop}[1]{\hyperref[prop:#1]{Proposition~\ref*{prop:#1}}}
+\newcommand{\assum}[1]{\hyperref[assum:#1]{Assumption~\ref*{assum:#1}}}
+\newcommand{\fig}[1]{\hyperref[fig:#1]{Figure~\ref*{fig:#1}}}
+\newcommand{\tab}[1]{\hyperref[tab:#1]{Table~\ref*{tab:#1}}}
+\newcommand{\algo}[1]{\hyperref[algo:#1]{Algorithm~\ref*{algo:#1}}}
+\renewcommand{\sec}[1]{\hyperref[sec:#1]{Section~\ref*{sec:#1}}}
+\newcommand{\append}[1]{\hyperref[append:#1]{Appendix~\ref*{append:#1}}}
+\newcommand{\fac}[1]{\hyperref[fac:#1]{Fact~\ref*{fac:#1}}}
+\newcommand{\lin}[1]{\hyperref[lin:#1]{Line~\ref*{lin:#1}}}
+\newcommand{\itm}[1]{\ref{itm:#1}}
+
+\renewcommand{\arraystretch}{1.25}
+
+\newcommand{\algname}[1]{\textup{\texttt{#1}}}
+
+\def\>{\rangle}
+\def\<{\langle}
+\def\trans{^{\top}}
+
+\newcommand{\vect}[1]{\ensuremath{\mathbf{#1}}}
+\newcommand{\x}{\ensuremath{\mathbf{x}}}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\M}{\mathcal{M}}
+\renewcommand{\H}{\mathcal{H}}
+\newcommand{\cheb}{\mathcal{T}}
+
+\newcommand{\D}{{\mathscr{D}}}
+
+\let\var\relax
+
+\DeclareMathOperator{\poly}{poly}
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\anc}{anc}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\var}{var}
+\DeclareMathOperator{\inv}{inv}
+\DeclareMathOperator{\nrm}{norm}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\st}{St}
+\DeclareMathOperator{\hamt}{HAM-T}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\quan}{quantum}
+
+
+%\providecommand{\sgn}[1]{\mathrm{sgn}\left(#1\right)}
+%\providecommand{\rank}[1]{\mathrm{rank}\!\left(#1\right)}
+%\providecommand{\eend}[1]{\mathrm{End}\left(#1\right)}
+
+\renewcommand{\d}{\mathrm{d}}
+\renewcommand{\x}{\vect{x}}
+\newcommand{\y}{\vect{y}}
+\newcommand{\z}{\vect{z}}
+\renewcommand{\v}{\vect{v}}
+\renewcommand{\u}{\vect{u}}
+\newcommand{\0}{\mathbf{0}}
+\renewcommand{\emptyset}{\varnothing}
+\def\Tr{\operatorname{Tr}}\def\atanh{\operatorname{atanh}}\def\:{\hbox{\bf:}}
+\newcommand{\range}[1]{[#1]}
+\newcommand{\rangez}[1]{[{#1}]_0}
+
+\newcommand{\tO}{\tilde{O}}
+\newcommand{\tOmega}{\tilde{\Omega}}
+\newcommand{\tTheta}{\tilde{\Theta}}
+\newcommand{\tJ}{{\tilde{J}}}
+\newcommand{\tH}{{\tilde{H}}}
+\newcommand{\tU}{{\tilde{U}}}
+\newcommand{\ttau}{{\tilde{\tau}}}
+\newcommand{\otH}{{\overline{\tilde{H}}}}
+
+\newcommand{\cX}{\mathcal{X}}
+\newcommand{\cY}{\mathcal{Y}}
+\newcommand{\cS}{\mathcal{S}}
+\newcommand{\cV}{\mathcal{V}}
+\newcommand{\cC}{\mathcal{C}}
+
+\newcommand{\oH}{\overline{H}}
+\newcommand{\oh}{\overline{h}}
+\newcommand{\oW}{\overline{W}}
+
+% \newcommand{\bs}{{\bm{s}}}
+\newcommand{\blambda}{{\bm{\Lambda}}}
+\newcommand{\bi}{{\bm{i}}}
+\newcommand{\bj}{{\bm{j}}}
+
+\newcommand{\plg}{\Pi_{>\Lambda}}
+\newcommand{\pll}{\Pi_{\leq\Lambda}}
+\newcommand{\plpg}{\Pi_{>\Lambda'}}
+\newcommand{\plpl}{\Pi_{\leq\Lambda'}}
+
+\newcommand{\pdg}{\Pi_{>\Delta}}
+\newcommand{\pdl}{\Pi_{\leq\Delta}}
+\newcommand{\pdpg}{\Pi_{>\Delta'}}
+\newcommand{\pdpl}{\Pi_{\leq\Delta'}}
+
+\newcommand{\pl}[1]{\Pi_{\leq\Lambda_{#1}}}
+
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\Adet}{\mathcal{A}_{\text{det}}}
+\newcommand{\Arand}{\mathcal{A}_{\text{rand}}}
+
+\newcommand{\hd}[1]{\vspace{4mm} \noindent \textbf{#1}}
+\def \eps {\epsilon}
+
+\let\oldnl\nl
+\newcommand{\nonl}{\renewcommand{\nl}{\let\nl\oldnl}}
+
+\def\andname{\hspace*{-0.5em},}
+
+\newcommand{\tyl}[1]{{\color{red}{Tongyang: \textbf{#1}}}}
+\newcommand{\sz}[1]{{\color{blue}{Shuo Zhou: \textbf{#1}}}}
+\newcommand{\wyg}[1]{{\color{brown}{Weiyuan: \textbf{#1}}}}
+\usepackage{cleveref}
+
+
+\newcommand{\red}[1]{{\color{red}{{#1}}}}
+%You can add your own command here
+\usepackage{authblk}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
 
-% --- Front matter (excluded from page count) -----------------------------
-\begin{titlepage}
-  \centering
-  \vspace*{2cm}
-  {\Large \bfseries Candidacy Proposition 2\par}
-  \vspace{0.5cm}
-  {\Large \bfseries\color{red!60!black} OUT-OF-FIELD PROPOSITION\par}
-  \vspace{1.5cm}
-  {\LARGE Public-Key Quantum Money\par}
-  \vspace{2cm}
-  {\large Xiangzhi (Sam) Ouyang \par}
-  \vspace{0.5cm}
-  {\normalsize \texttt{xouyang@caltech.edu} \par}
-  \vspace{1.5cm}
-  {\normalsize Division of Chemistry and Chemical Engineering \\
-               California Institute of Technology \par}
-  \vfill
-  {\normalsize Submitted \today \par}
-\end{titlepage}
+\title{Public-Key Quantum Money}
+\author{Time-dependent folks}
+%\author[1]{}
+% \quad
+% \author[2]{}
 
-\begin{center}
-  \fbox{\parbox{0.85\linewidth}{\centering
-    \textbf{This proposition is clearly out-of-field}
-    with respect to the candidate's thesis research in
-    tensor-network methods for chemical dynamics. The topic is
-    public-key quantum money, a problem in quantum cryptography and
-    complexity theory, and is of a nature that would not be
-    undertaken by the candidate's research group.}}
-\end{center}
+%\affil[1]{}
+%\affil[2]{}
+%\affil[3]{}
 
-\vspace{1em}
 
-\begin{singlespace}
-\tableofcontents
-\end{singlespace}
-\newpage
+\date{}
+\maketitle
 
-\begin{abstract}
-\noindent
-\textit{[One paragraph: central claim, security model, construction
-idea, validation plan, why it is out-of-field.]}
-\end{abstract}
+\section{Introduction}
+How to create a Hamiltonian $H$ such that given $k$ copies of the ground state of $H$, generating another copy of the ground state is hard? This has implication to quantum advantage in creating the best store of value. In particular, we want a better version of quantum money where no one can create the verifiable quantum states for free. For example, in public-key quantum money, the central bank can create the quantum states for free. This yields the risk of central bank just printing money when they need to.
 
-% --- Body (counts toward the 15-page limit) ------------------------------
-\setcounter{page}{1}
+\subsection{Definition}
+A public-key quantum money scheme consists of a tuple of algorithms $(\text{Gen}, \text{Ver})$:
+\begin{itemize}
+    \item $\text{Gen}(1^\lambda) \to (\text{pk}, \ket{\$})$: Generates a public key and a quantum money state.
+    \item $\text{Ver}(\ket{\psi}, \text{pk}) \to \top / \bot$: Verifies if the state $\ket{\psi}$ is valid money with respect to $\text{pk}$.
+\end{itemize}
 
-\section{Central Claim}
-\label{sec:claim}
-\textit{[One sentence: the proposed construction yields a
-publicly-verifiable, unforgeable quantum money scheme under a stated
-hardness assumption.]}
+\subsection{Security (Unclonability)}
+For any adversary $\mathcal{A}$ with access to $\text{pk}$ and one copy of $\ket{\$}$:
+\[
+\ket{\$}_{\mathcal{A}} \xrightarrow{\text{Attack}} \ket{\phi'}_{A_1 A_2}
+\]
+The adversary cannot generate a state on registers $A_1, A_2$ such that:
+\[
+\Pr[\text{Ver}(\text{pk}, \text{Reg}_1) = \top \land \text{Ver}(\text{pk}, \text{Reg}_2) = \top] \ge \text{negl}(\lambda)
+\]
+In other words, the money state cannot be cloned.
 
-\section{Background}
-\label{sec:background}
+\subsection{Constructions}
+We can construct quantum money from:
+\begin{enumerate}
+    \item \textbf{Post-quantum iO (Indistinguishability Obfuscation)}.
+    \item \textbf{Group Actions} (citing Bostanci, Nehoran, Zhandry).
+\end{enumerate}
 
-\subsection{Wiesner's private-key quantum money}
-\textit{[Original BB-style construction and its central limitation:
-verification requires the mint.]}
+\paragraph{Circuit-to-Hamiltonian Transformation:}
+For any circuit $C$, we can transform it into a Local Hamiltonian $H$ such that the history state (or output state) of $C$ is the ground state of $H$.
 
-\subsection{The public-key problem}
-\textit{[Statement of the problem, why no-cloning alone is
-insufficient for public verification, and why a computational
-assumption is required~\parencite{aaronsonQuantumCopyProtectionQuantum2009}.]}
+\paragraph{Open Question:}
+For the Group Action construction, can we transform it to a \textbf{1D/2D geometrically local Hamiltonian}? (Reference: Gottesman, Irani).
 
-\subsection{Recent landscape}
-\textit{[Lattice-based, knot-based, group-action-based, and
-quantum-lightning constructions; what is currently believed secure
-versus broken.]}
+---
 
-\section{Security Model}
-\label{sec:security}
+\section{Complexity Classes: QMA vs. Clonable QMA}
 
-\subsection{Syntax}
-\textit{[\textsc{KeyGen}, \textsc{Mint}, \textsc{Verify}, with
-correctness and verifiability definitions.]}
+\subsection{QMA (Quantum Merlin-Arthur)}
+A language $L \in \text{QMA}$ iff there exists a verification procedure $V$ such that for an input $x$:
+\begin{itemize}
+    \item \textbf{Completeness:} If $x \in L$, $\exists \ket{\psi}$ such that $\Pr[V(x, \ket{\psi}) \to \top] \ge 2/3$.
+    \item \textbf{Soundness:} If $x \notin L$, $\forall \ket{\psi}$, $\Pr[V(x, \ket{\psi}) \to \top] \le 1/3$.
+\end{itemize}
 
-\subsection{Unforgeability game}
-\textit{[Adversary receives one banknote, attempts to output two
-states that both pass \textsc{Verify}; advantage definition.]}
+\subsection{Clonable QMA}
+This class deals with problems where the witness is explicitly "clonable" or the verifier receives multiple copies.
+\begin{itemize}
+    \item Distinguishing between cases where a witness $\ket{\psi}$ can verify with high probability vs. cases where no witness works.
+    \item In Clonable QMA, we consider if the witness $\ket{\psi}$ allows for $\ket{\psi} \to \ket{\psi}\ket{\psi}$.
+\end{itemize}
 
-\subsection{Assumption}
-\textit{[Concrete computational assumption the security proof reduces
-to; why this assumption is plausibly post-quantum hard.]}
+\subsection{QMA-Complete Problem: Local Hamiltonian}
+Given a $k$-local Hamiltonian $H$, decide the ground state energy $E_0$:
+\begin{itemize}
+    \item YES case: $E_0 \le a$
+    \item NO case: $E_0 \ge b$
+    \item Promise gap: $b - a = \frac{1}{\text{poly}(n)}$
+\end{itemize}
 
-\section{Proposed Construction}
-\label{sec:construction}
+\paragraph{Question:} Can we find a local Hamiltonian whose ground state is \textbf{unclonable}?
 
-\subsection{Banknote state}
-\textit{[Description of $|\$\rangle$ in terms of the underlying
-mathematical structure.]}
+\subsection{Separation Result}
+There is a separation between \textbf{QMA} and \textbf{Clonable QMA} (citing Bostanci, Haferkamp, Nirkhe, Zhandry). This involves separating QMA and QCMA with a classical oracle.
 
-\subsection{Minting procedure}
-\textit{[Efficient quantum circuit for state preparation;
-classical serial number derivation.]}
+\subsubsection{Problem: Spectral Correlation}
+Given sets $S, T \subseteq \{0,1\}^n$, define projections:
+\[
+\Pi_S = \sum_{x \in S} \ket{x}\bra{x}, \quad \Pi_T = \sum_{x \in T} \ket{x}\bra{x}
+\]
+Decide if there exists $\ket{\psi}$ such that:
+\[
+\| \Pi_S H^{\otimes n} \Pi_T \ket{\psi} \|^2 \ge \frac{2}{3} \quad \text{(YES case)}
+\]
+Or if for all $\ket{\psi}$, the value is $\le \frac{1}{3}$ (NO case).
 
-\subsection{Public verification}
-\textit{[Verification circuit, completeness, and soundness analysis
-sketch.]}
+---
 
-\section{Security Argument}
-\label{sec:proof-sketch}
-\textit{[Reduction from a forging adversary to the stated assumption;
-identify the technical bottleneck and what tools (e.g.\ compressed
-oracle, Fourier-extraction duality, t-design arguments) the proof
-relies on.]}
+\section{Group Actions and Oracles}
 
-\section{Validation Plan}
-\label{sec:validation}
+\subsection{Search for Oracle Separation}
+Can we find a classical oracle relative to which there exists a Hamiltonian $H$ such that:
+\begin{itemize}
+    \item It is easy to decide its ground state energy in QMA.
+    \item It is hard to find a clonable witness (or the ground state is hard to clone).
+\end{itemize}
 
-\subsection{Cryptanalytic stress tests}
-\textit{[Known attacks to attempt: linear-algebra forgery, learning
-attacks, group-action shortcuts.]}
+\subsection{Pre-action Security of Group Action}
+Let $G$ be a group acting on set $X$, denoted $g \star x$.
+\begin{itemize}
+    \item \textbf{Pre-action:} For an element $h \in G$, considering actions like $g \star h \star x$ vs $g \star x$.
+    \item \textbf{Security Definition:} It is hard to distinguish the case where a random action has been applied to a register from the case where a random \textbf{pre-action} and action have been applied.
+    \item Formally, distinguishing:
+    \[ h_1 g_1 x \quad \text{vs} \quad h_1 h_2 \dots \quad (\text{where } h_i, g_i \leftarrow G) \]
+\end{itemize}
 
-\subsection{Resource estimation}
-\textit{[Qubit count, circuit depth, error tolerance for a
-near-term-relevant security parameter.]}
-
-\section{Out-of-Field Justification}
-\label{sec:outoffield}
-\textit{[Explicit statement: this topic lies in quantum
-cryptography/complexity theory and is unrelated to the candidate's
-work on tensor-network methods for chemical dynamics. It is not a
-project the candidate's research group would pursue.]}
-
-\section{Risks and Open Questions}
-\label{sec:risks}
-
-\paragraph{Assumption fragility.}
-\textit{[Risk + fallback.]}
-\paragraph{Verification efficiency.}
-\textit{[Risk + fallback.]}
-\paragraph{Cloning attacks via learning.}
-\textit{[Risk + fallback.]}
-
-% --- References (excluded from page count) -------------------------------
-\begin{singlespace}
-\printbibliography
-\end{singlespace}
-
+\paragraph{Instantiations \& Applications:}
+\begin{itemize}
+    \item Can be instantiated with \textbf{McEliece} (code-based crypto).
+    \item Leads to \textbf{One-Shot Signatures} and \textbf{Quantum Money}.
+    \item Connections to Classical Oracles, iO, and sub-exponential LWE.
+\end{itemize}
+%\bibliographystyle{qubit}
+%\bibliography{QSimLowEnergy}
 \end{document}
