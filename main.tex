@@ -77,10 +77,47 @@
 \setcounter{page}{1}
 
 \section{Introduction}
-The goal of this proposal is to ask whether public-key quantum money can be realized as the ground space of a publicly specified Hamiltonian.
-In a public-key quantum money scheme, a banknote is a quantum state $|\$\rangle$ that can be verified using public classical information, but no efficient adversary should be able to turn $k$ valid notes into more than $k$ valid notes.
-The Hamiltonian formulation gives a natural verification mechanism: a state is accepted if it has sufficiently low energy with respect to a public Hamiltonian $H$.
-The central question is then whether one can construct $H$ so that its valid ground states are efficiently mintable by the issuer but computationally hard to prepare or clone for everyone else.
+Quantum money originated with Wiesner's proposal of conjugate coding, where a banknote contains a classical serial number together with qubits prepared in secret conjugate bases \cite{wiesnerConjugateCoding1983}.
+The bank can verify the note because it stores the classical description of the bases and outcomes, while a counterfeiter who does not know this description cannot learn the note well enough to reproduce it without disturbing it.
+This was the first example of a cryptographic task whose security is genuinely quantum: a classical string can always be copied, but an unknown quantum state cannot be cloned.
+Wiesner's scheme, however, is private-key quantum money.
+Verification requires returning the banknote to the bank, or at least interacting with an entity that knows the secret verification data.
+
+A natural next goal is to make quantum money behave more like cash.
+In a public-key quantum money scheme, anyone should be able to verify a banknote using public information, while only the legitimate issuer should be able to mint valid notes efficiently.
+Early work of Bennett, Brassard, Breidbart, and Wiesner already explored how to combine conjugate coding with computational assumptions in ``unforgeable subway tokens'' \cite{bennettQuantumCryptographyUnforgeable1982}.
+Aaronson later gave a complexity-theoretic formulation of public quantum money and proved a complexity-theoretic no-cloning theorem, giving oracle evidence that public verification need not make cloning easy \cite{aaronsonQuantumCopyProtectionQuantum2009}.
+The important point for this proposal is that public-key quantum money does not require the honest mint to be unable to prepare the money state.
+Rather, the honest mint has a secret key or trapdoor and can prepare valid banknotes efficiently; the security requirement is that a public adversary, given the public key, the public verifier, and some valid banknotes, cannot efficiently prepare or clone additional valid banknotes.
+
+Many candidate public-key quantum money schemes can be understood by asking what the banknote state is, how public verification works, and what computational assumption prevents public state preparation.
+Aaronson's early candidate used random stabilizer states and public tests, but this concrete proposal was later broken \cite{aaronsonQuantumCopyProtectionQuantum2009,lutomirskiBreakingMakingQuantum2009}.
+Farhi, Gosset, Hassidim, Lutomirski, and Shor proposed money from knots, where a banknote is a superposition over equivalent knot diagrams and verification uses knot invariants \cite{farhiQuantumMoneyKnots2012}.
+Aaronson and Christiano proposed a hidden-subspace scheme whose verifier performs tests in complementary bases; its black-box version has strong security evidence, but concrete instantiations have led to further cryptanalysis \cite{aaronsonChristianoQuantumMoneyHidden2012,bilykCryptanalysisThreeQuantum2022}.
+Zhandry introduced quantum lightning, a stronger ``collision-free'' primitive in which no efficient procedure should generate two valid bolts with the same serial number \cite{zhandryQuantumLightningNever2017a}.
+Lightning is closely related to public-key quantum money, but it changes the minting model: generation may be public, while security forbids serial-number collisions rather than merely counterfeiting notes issued by a bank.
+
+The search for assumptions underlying public verification has produced both constructions and barriers.
+Liu, Montgomery, and Zhandry showed that a natural class of lattice-based money schemes cannot be secure, while also proposing an invariant-money framework for quantum money and lightning \cite{liuAnotherBreakingMaking2023}.
+Kane, Sharif, and Silverberg proposed a number-theoretic approach in which bills are joint eigenstates of commuting operators arising from quaternion algebras \cite{kaneQuantumMoneyQuaternion2022}.
+Other works show barriers to obtaining public-key quantum money from some standard-looking tools, including collision-resistant hash functions and black-box uses of evasive obfuscation \cite{ananthImplausibilityPublicKey2023,zhandryQuantumMoneyEvasive2025}.
+There is also a semi-quantum direction, initiated by Radian and Sattath, that asks how much quantumness is needed from the bank; Shmueli constructed public-key quantum money with a classical bank from quantum-secure indistinguishability obfuscation and sub-exponential LWE \cite{radianSemiQuantumMoney2019,shmueliPublicKeyQuantum2022}.
+Most relevant for this proposal is the group-action line: Zhandry constructed public-key quantum money, and even quantum lightning, from abelian group actions \cite{zhandryQuantumMoneyAbelian2025}; Doliskani related the security of this construction in a generic group-action model to the group-action discrete logarithm problem \cite{doliskaniPublicKeyQuantum2025}; and Bostanci, Nehoran, and Zhandry extended the picture through a general quantum duality for group representations and a pre-action security assumption \cite{bostanciGeneralQuantumDuality2025}.
+
+These works suggest a common tension.
+Public verification must reveal enough structure for anyone to test a banknote, but it must not reveal an efficient state-preparation procedure for the accepting states.
+This proposal studies that tension through the language of Hamiltonian complexity.
+Instead of viewing verification only as a public quantum circuit, we ask whether the valid banknotes can be realized as low-energy states, or ground states, of a publicly specified Hamiltonian $H$.
+In such a formulation, the public verifier is an energy test for $H$, while the security question becomes a ground-state preparation question: can an adversary given $H$, $\mathsf{pk}$, and $k$ valid ground states efficiently prepare more valid ground states?
+
+The Hamiltonian viewpoint is natural because circuit verification can often be converted into local Hamiltonian constraints, and geometrically local Hamiltonians are the standard bridge between quantum computation and many-body physics \cite{gottesmanQuantumClassicalComplexity2010}.
+Recent work on public-key pseudoentanglement and ground-state learning hardness also shows that cryptographic assumptions can control what can be learned or prepared from a public Hamiltonian description \cite{boulandPublickeyPseudoentanglementHardness2023,boulandHardnessLearningGround2024}.
+The goal of this proposal is therefore not to prevent the legitimate issuer from minting.
+The goal is to construct, or identify obstacles to constructing, a public Hamiltonian whose valid ground states are efficiently mintable with secret or trapdoor information, publicly verifiable by energy measurements, and computationally hard to prepare or clone from public information alone.
+The main question is whether existing public-key quantum money constructions, especially group-action based constructions, can be represented as local or geometrically local Hamiltonians while preserving mintability, public verification, and unclonability.
+
+The rest of the proposal first formalizes the public-key quantum money syntax and unclonability requirement.
+It then reviews candidate constructions and the circuit-to-Hamiltonian route, before connecting the problem to QMA, clonable QMA, and group-action based oracle separations.
 
 \subsection{Definition}
 A public-key quantum money scheme consists of an efficient minting algorithm and an efficient public verification algorithm:
