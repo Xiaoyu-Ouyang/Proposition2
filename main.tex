@@ -250,49 +250,44 @@ Gottesman and Irani show that low-dimensional Hamiltonian systems can encode hig
 More recent work on public-key pseudoentanglement and ground-state learning hardness shows how public-key cryptographic state constructions can be translated into Hamiltonian hardness, first for general local Hamiltonians and then for geometrically local Hamiltonians using related ideas \cite{boulandPublickeyPseudoentanglementHardness2023,boulandHardnessLearningGround2024}.
 This motivates the central open question: can a public-key quantum money construction, especially a group-action based construction, be realized as a public geometrically local Hamiltonian whose ground states remain efficiently mintable by the issuer but hard to prepare or clone from public information?
 
----
+\section{Complexity-Theoretic Motivation: QMA and Clonable QMA}
 
-\section{Complexity Classes: QMA vs. Clonable QMA}
+The Hamiltonian formulation naturally connects public-key quantum money to QMA. In QMA, a polynomial-time quantum verifier receives a polynomial-size quantum witness. Completeness says that for every YES instance $x$, there exists a witness $|\psi\rangle$ accepted with high probability; soundness says that for every NO instance, no quantum witness is accepted with high probability \cite{aharonovQuantumNPSurvey2002}.
 
-\subsection{QMA (Quantum Merlin-Arthur)}
-A language $L \in \text{QMA}$ iff there exists a verification procedure $V$ such that for an input $x$:
-\begin{itemize}
-    \item \textbf{Completeness:} If $x \in L$, $\exists \ket{\psi}$ such that $\Pr[V(x, \ket{\psi}) \to \top] \ge 2/3$.
-    \item \textbf{Soundness:} If $x \notin L$, $\forall \ket{\psi}$, $\Pr[V(x, \ket{\psi}) \to \top] \le 1/3$.
-\end{itemize}
+\subsection{Local Hamiltonian as a QMA Witness Problem}
+The local Hamiltonian problem is the canonical QMA-complete problem. Given a $k$-local Hamiltonian
+\[
+H=\sum_i H_i,
+\]
+one must distinguish the case $\lambda_{\min}(H)\le a$ from the case $\lambda_{\min}(H)\ge b$, promised that $b-a\ge 1/\operatorname{poly}(n)$. In a YES instance, a low-energy state, in particular a ground state, serves as the QMA witness. Kitaev's construction established QMA-completeness of local Hamiltonian, and Kempe, Kitaev, and Regev later showed that even the 2-local Hamiltonian problem is QMA-complete \cite{aharonovQuantumNPSurvey2002,kempeComplexityLocalHamiltonian2006}.
+
+For this proposal, the relevant point is not only that ground states can be verified as QMA witnesses, but that they may be hard to reproduce. The target question is therefore: can a publicly specified local Hamiltonian have efficiently verifiable ground states that remain hard to prepare or clone from public information?
 
 \subsection{Clonable QMA}
-This class deals with problems where the witness is explicitly "clonable" or the verifier receives multiple copies.
-\begin{itemize}
-    \item Distinguishing between cases where a witness $\ket{\psi}$ can verify with high probability vs. cases where no witness works.
-    \item In Clonable QMA, we consider if the witness $\ket{\psi}$ allows for $\ket{\psi} \to \ket{\psi}\ket{\psi}$.
-\end{itemize}
-
-\subsection{QMA-Complete Problem: Local Hamiltonian}
-Given a $k$-local Hamiltonian $H$, decide the ground state energy $E_0$:
-\begin{itemize}
-    \item YES case: $E_0 \le a$
-    \item NO case: $E_0 \ge b$
-    \item Promise gap: $b - a = \frac{1}{\text{poly}(n)}$
-\end{itemize}
-
-\paragraph{Question:} Can we find a local Hamiltonian whose ground state is \textbf{unclonable}?
-
-\subsection{Separation Result}
-There is a separation between \textbf{QMA} and \textbf{Clonable QMA} (citing Bostanci, Haferkamp, Nirkhe, Zhandry). This involves separating QMA and QCMA with a classical oracle.
-
-\subsubsection{Problem: Spectral Correlation}
-Given sets $S, T \subseteq \{0,1\}^n$, define projections:
+Nehoran and Zhandry introduced $\mathsf{clonableQMA}$ to formalize QMA problems whose valid quantum witnesses are efficiently clonable \cite{nehoranComputationalSeparationQuantum2024}. Informally, a language is in $\mathsf{clonableQMA}$ if there are a QMA verifier $V$ and an efficient quantum cloner $C$ such that, for every YES instance $x$, there exists a witness $|\psi_x\rangle$ that both makes $V$ accept and can be cloned by $C$ with high fidelity:
 \[
-\Pi_S = \sum_{x \in S} \ket{x}\bra{x}, \quad \Pi_T = \sum_{x \in T} \ket{x}\bra{x}
+C(|\psi_x\rangle\langle\psi_x|)\approx |\psi_x\rangle\langle\psi_x|\otimes |\psi_x\rangle\langle\psi_x|.
 \]
-Decide if there exists $\ket{\psi}$ such that:
+They show the containment
 \[
-\| \Pi_S H^{\otimes n} \Pi_T \ket{\psi} \|^2 \ge \frac{2}{3} \quad \text{(YES case)}
+\mathsf{QCMA}\subseteq \mathsf{clonableQMA}\subseteq \mathsf{QMA},
 \]
-Or if for all $\ket{\psi}$, the value is $\le \frac{1}{3}$ (NO case).
+where $\mathsf{QCMA}$ has classical witnesses and $\mathsf{QMA}$ allows arbitrary quantum witnesses. This makes $\mathsf{clonableQMA}$ the right complexity-theoretic language for separating reusable, efficiently copyable witnesses from genuinely quantum witnesses.
 
----
+\subsection{Evidence from Spectral Forrelation}
+Bostanci, Haferkamp, Nirkhe, and Zhandry give a classical-oracle separation between $\mathsf{QMA}$ and $\mathsf{QCMA}$ using spectral Forrelation \cite{bostanciSeparatingQMAQCMA2025}. For subsets $S,U\subseteq \{0,1\}^n$, let
+\[
+\Pi_S=\sum_{x\in S}|x\rangle\langle x|,
+\qquad
+\Pi_U=\sum_{x\in U}|x\rangle\langle x|.
+\]
+The spectral Forrelation value is
+\[
+\|\Pi_U \mathsf{Had}^{\otimes n}\Pi_S\|_{\mathrm{op}}^2
+=
+\max_{\|\psi\|=1}\|\Pi_U \mathsf{Had}^{\otimes n}\Pi_S|\psi\rangle\|^2.
+\]
+The QMA witness is the top singular vector for this operator. The key intuition is that a classical witness can be reused to generate many samples, whereas a quantum witness is a use-once object. This supports the proposal's main viewpoint: unclonability can be a computational resource, and Hamiltonian ground states are a natural place to ask for publicly verifiable but non-reproducible quantum witnesses.
 
 \section{Group Actions and Oracles}
 
