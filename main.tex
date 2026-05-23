@@ -291,21 +291,24 @@ The QMA witness is the top singular vector for this operator. The key intuition 
 
 \section{Group Actions and Oracles}
 
-\subsection{Search for Oracle Separation}
-Can we find a classical oracle relative to which there exists a Hamiltonian $H$ such that:
-\begin{itemize}
-    \item It is easy to decide its ground state energy in QMA.
-    \item It is hard to find a clonable witness (or the ground state is hard to clone).
-\end{itemize}
+The group-action construction suggests a concrete route toward Hamiltonian quantum money.
+Its public verifier is already a representation-theoretic test: for a claimed serial number, valid banknotes lie in a Fourier or isotypic subspace.
+Equivalently, the verifier defines a public, generally non-local, accepting projector $P_\lambda$ and hence a formal Hamiltonian $H_\lambda=I-P_\lambda$ whose ground space is the valid money subspace \cite{zhandryQuantumMoneyAbelian2025,bostanciGeneralQuantumDuality2025}.
 
-\subsection{Pre-action Security of Group Action}
-Let $G$ be a group acting on set $X$, denoted $g \star x$.
-\begin{itemize}
-    \item \textbf{Pre-action:} For an element $h \in G$, considering actions like $g \star h \star x$ vs $g \star x$.
-    \item \textbf{Security Definition:} It is hard to distinguish the case where a random action has been applied to a register from the case where a random \textbf{pre-action} and action have been applied.
-    \item Formally, distinguishing:
-    \[ h_1 g_1 x \quad \text{vs} \quad h_1 h_2 \dots \quad (\text{where } h_i, g_i \leftarrow G) \]
-\end{itemize}
+The main difficulty is to replace this non-local verification Hamiltonian by a local, preferably geometrically local, Hamiltonian without making the state efficiently preparable from public information.
+One possible approach is not to localize $P_\lambda$ directly, but to start from the public verification circuit and apply a circuit-to-Hamiltonian construction.
+The resulting ground state would usually be a history state rather than the original banknote, so one would need a reduction showing that preparing or cloning low-energy states yields a counterfeiting attack against the original group-action money scheme \cite{aharonovAdiabaticQuantumComputation2008}.
+The work on public-key pseudoentanglement and ground-state learning hardness gives evidence that public-key cryptographic hardness can survive Hamiltonianization, and that more geometric versions may be reachable using QTM-to-Hamiltonian or related low-dimensional constructions \cite{gottesmanQuantumClassicalComplexity2010,boulandPublickeyPseudoentanglementHardness2023,boulandHardnessLearningGround2024}.
+
+For the non-Abelian group-action route, the relevant security assumption is pre-action security.
+Let $G$ act on $X$, written $g\star x$.
+Relative to a fixed starting element $x$, an ordinary action maps $g\star x$ to $(h_1g)\star x$, while a pre-action by $h_2$ maps it roughly to $(gh_2^{-1})\star x$.
+A bi-action combines the two, sending
+\[
+g\star x \longmapsto (h_1gh_2^{-1})\star x.
+\]
+Pre-action indistinguishability asks that no efficient quantum adversary can distinguish a random action from a random bi-action.
+This assumption is meaningful mainly in the non-Abelian setting, since for abelian group actions the action and pre-action essentially coincide \cite{bostanciGeneralQuantumDuality2025}.
 
 \paragraph{Instantiations \& Applications:}
 \begin{itemize}
