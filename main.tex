@@ -244,7 +244,11 @@ The output $C|0\rangle$ appears in the final clock sector, not usually as the en
 Thus the main Hamiltonian question is whether the verification projector, or an equivalent verifier, can be made local while keeping the valid money state recoverable from the resulting ground space.
 
 \paragraph{Open Question:}
-For the group-action construction, can the verification projector, or an equivalent verifier, be transformed into a \textbf{1D/2D geometrically local Hamiltonian} whose ground states remain valid public-key quantum money states \cite{gottesmanQuantumClassicalComplexity2010}?
+The group-action construction is a natural starting point for the Hamiltonian formulation because its verifier already has a projector form: valid money states lie in a Fourier or isotypic subspace, giving the non-local Hamiltonian $H_\lambda=I-P_\lambda$.
+The remaining question is whether this non-local verification Hamiltonian can be replaced by a local, preferably \textbf{1D/2D geometrically local}, Hamiltonian without losing the cryptographic properties.
+Gottesman and Irani show that low-dimensional Hamiltonian systems can encode highly nontrivial computation through quantum Turing-machine-to-Hamiltonian techniques \cite{gottesmanQuantumClassicalComplexity2010}.
+More recent work on public-key pseudoentanglement and ground-state learning hardness shows how public-key cryptographic state constructions can be translated into Hamiltonian hardness, first for general local Hamiltonians and then for geometrically local Hamiltonians using related ideas \cite{boulandPublickeyPseudoentanglementHardness2023,boulandHardnessLearningGround2024}.
+This motivates the central open question: can a public-key quantum money construction, especially a group-action based construction, be realized as a public geometrically local Hamiltonian whose ground states remain efficiently mintable by the issuer but hard to prepare or clone from public information?
 
 ---
 
