@@ -159,17 +159,62 @@ Equivalently, no efficient adversary should be able to increase the number of va
 The fully general definition allows an adversary to receive $k$ valid banknotes and output more than $k$ registers, and requires that the adversary's total expected number of accepting registers increases by at most a negligible amount.
 
 \subsection{Constructions}
-We can construct quantum money from:
-\begin{enumerate}
-    \item \textbf{Post-quantum iO (Indistinguishability Obfuscation)}.
-    \item \textbf{Group Actions} (citing Bostanci, Nehoran, Zhandry).
-\end{enumerate}
+There are many proposed candidate constructions of public-key quantum money.
+For this proposal, two representative families are especially relevant: constructions based on post-quantum indistinguishability obfuscation, and constructions based on cryptographic group actions.
+Both families try to solve the same basic problem: publish enough information to verify a state, while hiding enough structure so that the public information does not become a state-preparation algorithm.
+
+\paragraph{Post-quantum indistinguishability obfuscation.}
+Indistinguishability obfuscation (iO) is a way to publish a circuit while hiding how the circuit works.
+Informally, if two circuits compute the same function, then their obfuscations should be computationally indistinguishable:
+\[
+C_0(x)=C_1(x)\ \text{for all }x
+\quad \Longrightarrow \quad
+\mathsf{iO}(C_0)\approx_{\mathrm{q}}\mathsf{iO}(C_1),
+\]
+where $\approx_{\mathrm{q}}$ means indistinguishability for efficient quantum adversaries.
+In public-key quantum money, iO can be used to publish a verification circuit that checks membership in a hidden valid-state space without revealing the trapdoor used by the mint.
+Schematically, the public key contains an obfuscated verifier,
+\[
+\mathsf{pk}=\mathsf{iO}(V_{\mathsf{sk}}),
+\qquad
+\mathrm{Ver}(\rho,\mathsf{pk})=V_{\mathsf{pk}}(\rho),
+\]
+while the secret key $\mathsf{sk}$ is still needed to efficiently prepare valid banknotes.
+This route appears in constructions and proposals based on quantum-secure iO, often together with additional assumptions such as sub-exponential LWE \cite{zhandryQuantumLightningNever2017a,shmueliPublicKeyQuantum2022}.
+
+\paragraph{Group actions.}
+The group-action approach gives a more direct bridge to projectors and Hamiltonians.
+Let a finite group $G$ act on a finite set $X$, written $g \star x$.
+This action defines a unitary representation on the Hilbert space spanned by $\{\ket{x}:x\in X\}$:
+\[
+R(g)=\sum_{x\in X}\ket{g\star x}\bra{x}.
+\]
+For an irreducible representation $\lambda$ of $G$, with dimension $d_\lambda$ and character $\chi_\lambda$, the corresponding Fourier-isotypic projector is
+\[
+P_\lambda=\frac{d_\lambda}{|G|}
+\sum_{g\in G}\chi_\lambda(g)^*R(g).
+\]
+In the group-action quantum money picture, the serial number is associated with $\lambda$, and a valid banknote is a state in the image of $P_\lambda$.
+Public verification can therefore be viewed as checking whether the state has large overlap with this projector:
+\[
+\mathrm{Ver}(\rho,\lambda)=\top
+\quad \text{if} \quad
+\operatorname{Tr}(P_\lambda \rho)\approx 1.
+\]
+This immediately gives a Hamiltonian whose ground space is the valid money subspace,
+\[
+H_\lambda=I-P_\lambda.
+\]
+The security of this route is based on assumptions about the hardness of manipulating the group action, such as generic group-action hardness or pre-action security \cite{zhandryQuantumMoneyAbelian2025,doliskaniPublicKeyQuantum2025,bostanciGeneralQuantumDuality2025}.
 
 \paragraph{Circuit-to-Hamiltonian Transformation:}
-For any circuit $C$, we can transform it into a Local Hamiltonian $H$ such that the history state (or output state) of $C$ is the ground state of $H$.
+Both representative routes provide public verification procedures, either as circuits or as projectors.
+The Feynman-Kitaev circuit-to-Hamiltonian construction can transform a verification circuit $V$ into a local Hamiltonian whose ground states are history states of the computation.
+However, this does not automatically imply that the banknote itself is the ground state.
+For group actions, the projector formula above gives the non-local Hamiltonian $H_\lambda=I-P_\lambda$ directly; the main challenge is to make an analogous Hamiltonian local or geometrically local while preserving mintability and unclonability.
 
 \paragraph{Open Question:}
-For the Group Action construction, can we transform it to a \textbf{1D/2D geometrically local Hamiltonian}? (Reference: Gottesman, Irani).
+For the group-action construction, can the verification projector, or an equivalent verifier, be transformed into a \textbf{1D/2D geometrically local Hamiltonian} whose ground states remain valid public-key quantum money states \cite{gottesmanQuantumClassicalComplexity2010}?
 
 ---
 
