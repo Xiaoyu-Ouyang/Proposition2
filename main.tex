@@ -77,13 +77,17 @@
 \setcounter{page}{1}
 
 \section{Introduction}
-How to create a Hamiltonian $H$ such that given $k$ copies of the ground state of $H$, generating another copy of the ground state is hard? This has implication to quantum advantage in creating the best store of value. In particular, we want a better version of quantum money where no one can create the verifiable quantum states for free. For example, in public-key quantum money, the central bank can create the quantum states for free. This yields the risk of central bank just printing money when they need to.
+The goal of this proposal is to ask whether public-key quantum money can be realized as the ground space of a publicly specified Hamiltonian.
+In a public-key quantum money scheme, a banknote is a quantum state $|\$\rangle$ that can be verified using public classical information, but no efficient adversary should be able to turn $k$ valid notes into more than $k$ valid notes.
+The Hamiltonian formulation gives a natural verification mechanism: a state is accepted if it has sufficiently low energy with respect to a public Hamiltonian $H$.
+The central question is then whether one can construct $H$ so that its valid ground states are efficiently mintable by the issuer but computationally hard to prepare or clone for everyone else.
 
 \subsection{Definition}
-A public-key quantum money scheme consists of a tuple of algorithms $(\text{Gen}, \text{Ver})$:
+A public-key quantum money scheme consists of three algorithms:
 \begin{itemize}
-    \item $\text{Gen}(1^\lambda) \to (\text{pk}, \ket{\$})$: Generates a public key and a quantum money state.
-    \item $\text{Ver}(\ket{\psi}, \text{pk}) \to \top / \bot$: Verifies if the state $\ket{\psi}$ is valid money with respect to $\text{pk}$.
+    \item $\textsc{KeyGen}(1^\lambda) \to (\mathsf{sk},\mathsf{pk})$: Generates a secret minting key and a public verification key.
+    \item $\textsc{Mint}(\mathsf{sk}) \to |\$\rangle$: Prepares a valid quantum banknote.
+    \item $\textsc{Verify}(\mathsf{pk},|\psi\rangle) \to \top / \bot$: Publicly verifies whether the state $|\psi\rangle$ is a valid banknote.
 \end{itemize}
 
 \subsection{Security (Unclonability)}
