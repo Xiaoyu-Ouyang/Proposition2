@@ -83,10 +83,10 @@ The Hamiltonian formulation gives a natural verification mechanism: a state is a
 The central question is then whether one can construct $H$ so that its valid ground states are efficiently mintable by the issuer but computationally hard to prepare or clone for everyone else.
 
 \subsection{Definition}
-A public-key quantum money scheme consists of a minting algorithm and a public verification algorithm:
+A public-key quantum money scheme consists of an efficient minting algorithm and an efficient public verification algorithm:
 \begin{itemize}
-    \item $\mathrm{Gen}(\mathsf{sk}) \to \mathsf{pk}, |\$\rangle$: Uses a secret minting key $\mathsf{sk}$ to generate a public verification key $\mathsf{pk}$ and a valid quantum banknote $|\$\rangle$.
-    \item $\mathrm{Ver}(|\psi\rangle,\mathsf{pk}) \to \top / \bot$: Publicly verifies whether the state $|\psi\rangle$ is a valid banknote with respect to $\mathsf{pk}$.
+    \item $\mathrm{Gen}(\mathsf{sk}) \to (\mathsf{pk}, |\$\rangle)$: Given a classical secret key $\mathsf{sk}$, the minting algorithm outputs a classical public key $\mathsf{pk}$ and a quantum banknote state $|\$\rangle$.
+    \item $\mathrm{Ver}(|\psi\rangle,\mathsf{pk}) \to \top / \bot$: Given a candidate quantum state $|\psi\rangle$ and the classical public key $\mathsf{pk}$, the public verification algorithm accepts or rejects the state.
 \end{itemize}
 
 \subsection{Security (Unclonability)}
