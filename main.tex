@@ -314,12 +314,14 @@ A bi-action combines these two operations, sending
 Pre-action indistinguishability asks that no efficient quantum adversary can distinguish a random action from a random bi-action.
 This assumption is meaningful mainly in the non-Abelian setting, since for abelian group actions the action and pre-action essentially coincide \cite{bostanciGeneralQuantumDuality2025}.
 
-\paragraph{Instantiations \& Applications:}
-\begin{itemize}
-    \item Can be instantiated with \textbf{McEliece} (code-based crypto).
-    \item Leads to \textbf{One-Shot Signatures} and \textbf{Quantum Money}.
-    \item Connections to Classical Oracles, iO, and sub-exponential LWE.
-\end{itemize}
+\paragraph{Instantiations and applications.}
+There are two related, but distinct, ways in which this line of work connects to existing cryptographic candidates.
+First, the non-Abelian group-action framework is not purely formal: Bostanci, Nehoran, and Zhandry propose a concrete candidate based on the symmetric-group action implicit in the McEliece cryptosystem.
+This should not be read as saying that the usual McEliece decoding assumption already implies pre-action security; rather, McEliece supplies a structured candidate group action, and pre-action security remains the additional assumption under which their quantum money and lightning construction is secure \cite{bostanciGeneralQuantumDuality2025}.
+Second, one-shot signatures give an adjacent route from unclonability to money-like primitives.
+Amos, Georgiou, Kiayias, and Zhandry showed that one-shot signatures yield quantum money with classical communication, with the quantum signing key serving as the money state \cite{amosOneShotSignaturesApplications2020}.
+More recently, Shmueli and Zhandry gave secure one-shot signatures relative to a classical oracle and in the standard model from sub-exponential iO, sub-exponential one-way functions, and LWE with a sub-exponential noise-modulus ratio \cite{shmueliOneShotSignaturesQuantum2025a}.
+Thus, the role of classical oracles, iO, and LWE here is not to instantiate the group-action Hamiltonian proposal directly, but to locate it among a broader family of public-key unclonability primitives whose known constructions often pass through oracle or obfuscation-based assumptions.
 % --- References (excluded from page count) -------------------------------
 \begin{singlespace}
 \printbibliography
