@@ -86,7 +86,7 @@ The central question is then whether one can construct $H$ so that its valid gro
 A public-key quantum money scheme consists of a minting algorithm and a public verification algorithm:
 \begin{itemize}
     \item $\mathrm{Gen}(\mathsf{sk}) \to \mathsf{pk}, |\$\rangle$: Uses a secret minting key $\mathsf{sk}$ to generate a public verification key $\mathsf{pk}$ and a valid quantum banknote $|\$\rangle$.
-    \item $\mathrm{Ver}(|\psi\rangle,\mathsf{pk}) \to \top / \bot$: Publicly verifies whether the state $|\psi\rangle$ is a valid banknote with respect to $\mathsf{pk}$.
+    \item $\mathrm{Ver}(|\$\rangle,\mathsf{pk}) \to \top / \bot$: Publicly verifies whether the state $|\psi\rangle$ is a valid banknote with respect to $\mathsf{pk}$.
 \end{itemize}
 
 \subsection{Security (Unclonability)}
