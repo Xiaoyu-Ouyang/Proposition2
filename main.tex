@@ -70,13 +70,27 @@
 
 \begin{abstract}
 \noindent
+Public-key quantum money asks for quantum banknotes that can be verified by anyone but cannot be efficiently copied or minted by an unauthorized party.
+This proposition studies a Hamiltonian formulation of that problem.
+Rather than viewing a banknote only as an accepted input to a public verification circuit, we ask whether valid banknotes can be realized as low-energy states, or ground states, of a public local Hamiltonian.
+In such a formulation, verification becomes an energy test, while counterfeiting becomes a ground-state preparation or cloning problem.
 
+The proposal reviews the development of quantum money from Wiesner's private-key scheme to public-key constructions based on hidden subspaces, indistinguishability obfuscation, and cryptographic group actions.
+Group-action money is the main candidate route because its verifier already has a representation-theoretic projector form: valid notes lie in Fourier or isotypic subspaces.
+This gives a natural non-local Hamiltonian $H_\lambda=I-P_\lambda$ whose ground space is the valid money subspace.
+The central technical question is whether this verification Hamiltonian, or an equivalent verifier, can be made local or geometrically local while preserving the cryptographic property that public information does not allow efficient preparation of additional valid states.
+
+The proposal also connects this question to Hamiltonian complexity and quantum witness complexity.
+Circuit-to-Hamiltonian methods suggest possible localization tools, while $\mathsf{clonableQMA}$ and classical-oracle separations between quantum and classical witnesses provide a language for distinguishing verifiable quantum witnesses from efficiently reproducible ones.
+The goal is to formulate a concrete path toward public-key quantum money as an unclonable ground-space primitive.
 \end{abstract}
+\newpage
 
 % --- Body (counts toward the 15-page limit) ------------------------------
 \setcounter{page}{1}
 
 \section{Introduction}
+\subsection{Historical background and motivation}
 Quantum money originated with Wiesner's proposal of conjugate coding, where classical information is encoded into quantum states chosen from incompatible bases \cite{wiesnerConjugateCoding1983}.
 In the simplest form, the bank chooses secret strings $x,\theta \in \{0,1\}^n$ and prepares
 \[
@@ -117,23 +131,22 @@ and Bostanci, Nehoran, and Zhandry extended the picture through a general quantu
 
 These works suggest a common verification-preparation tradeoff.
 Existing public-key quantum money schemes have efficient public verification by definition, but the verifier is usually described as a public quantum circuit or an algebraic test.
-This proposal asks whether the same tradeoff can be expressed in the language of Hamiltonian complexity.
-Instead of viewing verification only as a public verification circuit, we ask whether the valid banknotes can be realized as low-energy states, or ground states, of a publicly specified Hamiltonian $H$.
+The question pursued here is whether the same tradeoff can be expressed in the language of Hamiltonian complexity.
+Instead of viewing verification only as a public circuit, we ask whether the valid banknotes can be realized as low-energy states, or ground states, of a publicly specified Hamiltonian $H$.
 In such a formulation, the public verifier is an energy test for $H$, while the security question becomes a ground-state preparation question: can an adversary given $H$, $\mathsf{pk}$, and $k$ valid ground states efficiently prepare more valid ground states?
 
 The Hamiltonian viewpoint is natural because circuit verification can often be converted into local Hamiltonian constraints, and geometrically local Hamiltonians are the standard bridge between quantum computation and many-body physics \cite{gottesmanQuantumClassicalComplexity2010}.
 Recent work on public-key pseudoentanglement and ground-state learning hardness also shows that cryptographic assumptions can control what can be learned or prepared from a public Hamiltonian description \cite{boulandPublickeyPseudoentanglementHardness2023,boulandHardnessLearningGround2024}.
-The main question is simple: can public-key quantum money be realized as the ground space of a public local Hamiltonian?
-The desired construction should keep the honest mint efficient, while making ground-state preparation hard for anyone with only public information.
+The desired construction should realize public-key quantum money as the ground space of a public local Hamiltonian, keep the honest mint efficient, and make ground-state preparation hard for anyone with only public information.
 
-\subsection{Definition}
+\subsection{Syntax}
 A public-key quantum money scheme consists of an efficient minting algorithm and an efficient public verification algorithm:
 \begin{itemize}
     \item $\mathrm{Gen}(\mathsf{sk}) \to (\mathsf{pk}, |\$\rangle)$: Given a classical secret key $\mathsf{sk}$, the minting algorithm outputs a classical public key $\mathsf{pk}$ and a quantum banknote state $|\$\rangle$.
     \item $\mathrm{Ver}(|\psi\rangle,\mathsf{pk}) \to \top / \bot$: Given a candidate quantum state $|\psi\rangle$ and the classical public key $\mathsf{pk}$, the public verification algorithm accepts or rejects the state.
 \end{itemize}
 
-\subsection{Security (Unclonability)}
+\subsection{Security: unclonability}
 The basic security requirement is that one valid banknote cannot be turned into two valid banknotes.
 Let $\mathcal{A}$ be a quantum polynomial-time adversary that receives the public key $\mathsf{pk}$ and one valid banknote $|\$\rangle$.
 The adversary applies an arbitrary quantum attack and outputs a joint state on two registers, which are intended to be two candidate banknotes:
@@ -160,7 +173,7 @@ The fully general definition allows an adversary to receive $k$ valid banknotes 
 
 \subsection{Constructions}
 There are many proposed candidate constructions of public-key quantum money.
-For this proposal, two representative families are especially relevant: constructions based on post-quantum indistinguishability obfuscation, and constructions based on cryptographic group actions.
+Two representative families are especially relevant here: constructions based on post-quantum indistinguishability obfuscation, and constructions based on cryptographic group actions.
 Both families try to solve the same basic problem: publish enough information to verify a state, while hiding enough structure so that the public information does not become a state-preparation algorithm.
 
 \paragraph{Post-quantum indistinguishability obfuscation.}
@@ -231,8 +244,8 @@ H_\lambda=I-P_\lambda,
 \]
 In the non-Abelian setting, the relevant plain-model security assumption is pre-action security; this assumption only becomes meaningful once actions and pre-actions differ, which is why the non-Abelian generalization is important.
 
-\paragraph{Circuit-to-Hamiltonian Transformation:}
-The circuit-to-Hamiltonian statement should be interpreted in the Feynman-Kitaev history-state sense \cite{aharonovAdiabaticQuantumComputation2008}.
+\paragraph{Circuit-to-Hamiltonian transformation.}
+Circuit-to-Hamiltonian techniques provide a standard way to turn verification circuits into local Hamiltonian constraints, but they do so through Feynman-Kitaev history states \cite{aharonovAdiabaticQuantumComputation2008}.
 Given a circuit $C=U_T\cdots U_1$ and input $|0\rangle$, one can construct a local Hamiltonian $H_C$ whose ground state encodes the whole computation:
 \[
 |\Psi_{\mathrm{hist}}\rangle
@@ -241,9 +254,9 @@ Given a circuit $C=U_T\cdots U_1$ and input $|0\rangle$, one can construct a loc
 \]
 Here the $t=0$ term is interpreted as the input state $|0\rangle$.
 The output $C|0\rangle$ appears in the final clock sector, not usually as the entire ground state by itself.
-Thus the main Hamiltonian question is whether the verification projector, or an equivalent verifier, can be made local while keeping the valid money state recoverable from the resulting ground space.
+Thus localization is not automatic for quantum money: one must show that the verification projector, or an equivalent verifier, can be made local while keeping the valid money state recoverable from the resulting ground space.
 
-\paragraph{Open Question:}
+\paragraph{Open question.}
 This motivates the central open question of the proposal: can a public-key quantum money construction, especially a group-action based construction, be realized as a public local or geometrically local Hamiltonian whose ground states remain efficiently mintable by the issuer but hard to prepare or clone from public information?
 
 \section{Complexity-Theoretic Motivation: QMA and Clonable QMA}
@@ -257,7 +270,7 @@ H=\sum_i H_i,
 \]
 one must distinguish the case $\lambda_{\min}(H)\le a$ from the case $\lambda_{\min}(H)\ge b$, promised that $b-a\ge 1/\operatorname{poly}(n)$. In a YES instance, a low-energy state, in particular a ground state, serves as the QMA witness. Kitaev's construction established QMA-completeness of local Hamiltonian, and Kempe, Kitaev, and Regev later showed that even the 2-local Hamiltonian problem is QMA-complete \cite{aharonovQuantumNPSurvey2002,kempeComplexityLocalHamiltonian2006}.
 
-For this proposal, the relevant point is not only that ground states can be verified as QMA witnesses, but that they may be hard to reproduce. The target question is therefore: can a publicly specified local Hamiltonian have efficiently verifiable ground states that remain hard to prepare or clone from public information?
+The relevant point here is not only that ground states can be verified as QMA witnesses, but that they may be hard to reproduce. The target question is therefore: can a publicly specified local Hamiltonian have efficiently verifiable ground states that remain hard to prepare or clone from public information?
 
 \subsection{Clonable QMA}
 Nehoran and Zhandry introduced $\mathsf{clonableQMA}$ to formalize QMA problems whose valid quantum witnesses are efficiently clonable \cite{nehoranComputationalSeparationQuantum2024}. Informally, a language is in $\mathsf{clonableQMA}$ if there are a QMA verifier $V$ and an efficient quantum cloner $C$ such that, for every YES instance $x$, there exists a witness $|\psi_x\rangle$ that both makes $V$ accept and can be cloned by $C$ with high fidelity:
@@ -283,18 +296,17 @@ The spectral Forrelation value is
 =
 \max_{\|\psi\|=1}\|\Pi_U \mathsf{Had}^{\otimes n}\Pi_S|\psi\rangle\|^2.
 \]
-The QMA witness is the top singular vector for this operator. The key intuition is that a classical witness can be reused to generate many samples, whereas a quantum witness is a use-once object. This supports the proposal's main viewpoint: unclonability can be a computational resource, and Hamiltonian ground states are a natural place to ask for publicly verifiable but non-reproducible quantum witnesses.
+The QMA witness is the top singular vector for this operator. The key intuition is that a classical witness can be reused to generate many samples, whereas a quantum witness is a use-once object. This supports the viewpoint that unclonability can be a computational resource, and that Hamiltonian ground states are a natural place to ask for publicly verifiable but non-reproducible quantum witnesses.
 
 \section{Group Actions and Oracles}
 
-The group-action construction suggests a concrete route toward Hamiltonian quantum money.
+With this complexity-theoretic motivation in place, the group-action construction gives the most concrete route toward Hamiltonian quantum money considered in this proposal.
 Its public verifier is already a representation-theoretic test: for a claimed serial number, valid banknotes lie in a Fourier or isotypic subspace.
 Equivalently, the verifier defines a public, generally non-local, accepting projector $P_\lambda$ and hence a formal Hamiltonian $H_\lambda=I-P_\lambda$ whose ground space is the valid money subspace \cite{zhandryQuantumMoneyAbelian2025,bostanciGeneralQuantumDuality2025}.
 
-This gives a possible oracle-style formulation of the goal.
-Can one find, perhaps relative to a classical oracle, a public Hamiltonian $H$ such that low-energy states are efficiently verifiable as QMA witnesses, while producing an additional accepted witness from one accepted witness is hard for any efficient adversary?
+This suggests an oracle-style formulation of the goal: perhaps relative to a classical oracle, construct a public Hamiltonian $H$ such that low-energy states are efficiently verifiable as QMA witnesses, while producing an additional accepted witness from one accepted witness is hard for any efficient adversary.
 Equivalently, the desired Hamiltonian would sit naturally inside QMA as a verification problem but outside the clonable-witness regime captured by $\mathsf{clonableQMA}$ \cite{nehoranComputationalSeparationQuantum2024,bostanciSeparatingQMAQCMA2025}.
-This should be read as a target formulation, not as an existing separation theorem for the exact Hamiltonian-money construction.
+No current theorem establishes this exact Hamiltonian-money separation; it is the complexity-theoretic target suggested by the construction.
 
 The main difficulty is to replace this non-local verification Hamiltonian by a local, preferably geometrically local, Hamiltonian without making the state efficiently preparable from public information.
 One possible approach is not to localize $P_\lambda$ directly, but to start from the public verification circuit and apply a circuit-to-Hamiltonian construction.
@@ -316,8 +328,8 @@ This assumption is meaningful mainly in the non-Abelian setting, since for abeli
 
 \paragraph{Instantiations and applications.}
 There are two related, but distinct, ways in which this line of work connects to existing cryptographic candidates.
-First, the non-Abelian group-action framework is not purely formal: Bostanci, Nehoran, and Zhandry propose a concrete candidate based on the symmetric-group action implicit in the McEliece cryptosystem.
-This should not be read as saying that the usual McEliece decoding assumption already implies pre-action security; rather, McEliece supplies a structured candidate group action, and pre-action security remains the additional assumption under which their quantum money and lightning construction is secure \cite{bostanciGeneralQuantumDuality2025}.
+First, the non-Abelian group-action framework has candidate instantiations: Bostanci, Nehoran, and Zhandry propose a concrete candidate based on the symmetric-group action implicit in the McEliece cryptosystem.
+The usual McEliece decoding assumption does not by itself imply pre-action security; rather, McEliece supplies a structured candidate group action, and pre-action security remains the additional assumption under which their quantum money and lightning construction is secure \cite{bostanciGeneralQuantumDuality2025}.
 Second, one-shot signatures give an adjacent route from unclonability to money-like primitives.
 Amos, Georgiou, Kiayias, and Zhandry showed that one-shot signatures yield quantum money with classical communication, with the quantum signing key serving as the money state \cite{amosOneShotSignaturesApplications2020}.
 More recently, Shmueli and Zhandry gave secure one-shot signatures relative to a classical oracle and in the standard model from sub-exponential iO, sub-exponential one-way functions, and LWE with a sub-exponential noise-modulus ratio \cite{shmueliOneShotSignaturesQuantum2025a}.
