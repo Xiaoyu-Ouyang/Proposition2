@@ -134,15 +134,29 @@ A public-key quantum money scheme consists of an efficient minting algorithm and
 \end{itemize}
 
 \subsection{Security (Unclonability)}
-For any adversary $\mathcal{A}$ with access to $\text{pk}$ and one copy of $\ket{\$}$:
+The basic security requirement is that one valid banknote cannot be turned into two valid banknotes.
+Let $\mathcal{A}$ be a quantum polynomial-time adversary that receives the public key $\mathsf{pk}$ and one valid banknote $|\$\rangle$.
+The adversary applies an arbitrary quantum attack and outputs a joint state on two registers, which are intended to be two candidate banknotes:
 \[
-\ket{\$}_{\mathcal{A}} \xrightarrow{\text{Attack}} \ket{\phi'}_{A_1 A_2}
+\rho_{A_1A_2} \leftarrow \mathcal{A}(\mathsf{pk},|\$\rangle).
 \]
-The adversary cannot generate a state on registers $A_1, A_2$ such that:
+Here $\rho_{A_1A_2}$ may be mixed or entangled across the two registers.
+The individual candidate banknotes are the reduced states obtained by tracing out the other register:
 \[
-\Pr[\text{Ver}(\text{pk}, \text{Reg}_1) = \top \land \text{Ver}(\text{pk}, \text{Reg}_2) = \top] \ge \text{negl}(\lambda)
+\rho_{A_1}=\operatorname{Tr}_{A_2}(\rho_{A_1A_2}), \qquad
+\rho_{A_2}=\operatorname{Tr}_{A_1}(\rho_{A_1A_2}).
 \]
-In other words, the money state cannot be cloned.
+Unclonability says that the probability that both candidate banknotes pass public verification is negligible:
+\[
+\Pr\!\left[
+\mathrm{Ver}(\rho_{A_1},\mathsf{pk})=\top
+\ \land\
+\mathrm{Ver}(\rho_{A_2},\mathsf{pk})=\top
+\right]
+\le \operatorname{negl}(\lambda).
+\]
+Equivalently, no efficient adversary should be able to increase the number of valid banknotes.
+The fully general definition allows an adversary to receive $k$ valid banknotes and output more than $k$ registers, and requires that the adversary's total expected number of accepting registers increases by at most a negligible amount.
 
 \subsection{Constructions}
 We can construct quantum money from:
