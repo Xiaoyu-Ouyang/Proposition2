@@ -232,10 +232,16 @@ H_\lambda=I-P_\lambda,
 In the non-Abelian setting, the relevant plain-model security assumption is pre-action security; this assumption only becomes meaningful once actions and pre-actions differ, which is why the non-Abelian generalization is important.
 
 \paragraph{Circuit-to-Hamiltonian Transformation:}
-Both representative routes provide public verification procedures, either as circuits or as projectors.
-The Feynman-Kitaev circuit-to-Hamiltonian construction can transform a verification circuit $V$ into a local Hamiltonian whose ground states are history states of the computation.
-However, this does not automatically imply that the banknote itself is the ground state.
-For group actions, the projector formula above gives the non-local Hamiltonian $H_\lambda=I-P_\lambda$ directly; the main challenge is to make an analogous Hamiltonian local or geometrically local while preserving mintability and unclonability.
+The circuit-to-Hamiltonian statement should be interpreted in the Feynman-Kitaev history-state sense \cite{aharonovAdiabaticQuantumComputation2008}.
+Given a circuit $C=U_T\cdots U_1$ and input $|0\rangle$, one can construct a local Hamiltonian $H_C$ whose ground state encodes the whole computation:
+\[
+|\Psi_{\mathrm{hist}}\rangle
+=\frac{1}{\sqrt{T+1}}\sum_{t=0}^T
+\left(U_t\cdots U_1|0\rangle\right)\otimes |t\rangle_{\mathrm{clock}}.
+\]
+Here the $t=0$ term is interpreted as the input state $|0\rangle$.
+The output $C|0\rangle$ appears in the final clock sector, not usually as the entire ground state by itself.
+Thus the main Hamiltonian question is whether the verification projector, or an equivalent verifier, can be made local while keeping the valid money state recoverable from the resulting ground space.
 
 \paragraph{Open Question:}
 For the group-action construction, can the verification projector, or an equivalent verifier, be transformed into a \textbf{1D/2D geometrically local Hamiltonian} whose ground states remain valid public-key quantum money states \cite{gottesmanQuantumClassicalComplexity2010}?
