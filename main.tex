@@ -172,40 +172,64 @@ C_0(x)=C_1(x)\ \text{for all }x
 \mathsf{iO}(C_0)\approx_{\mathrm{q}}\mathsf{iO}(C_1),
 \]
 where $\approx_{\mathrm{q}}$ means indistinguishability for efficient quantum adversaries.
-In public-key quantum money, iO can be used to publish a verification circuit that checks membership in a hidden valid-state space without revealing the trapdoor used by the mint.
-Schematically, the public key contains an obfuscated verifier,
+The iO-based public-key quantum money route is most cleanly understood through the hidden-subspace scheme of Aaronson and Christiano and Zhandry's subspace-hiding obfuscation approach \cite{aaronsonChristianoQuantumMoneyHidden2012,zhandryQuantumLightningNever2017a}.
+The mint samples a hidden subspace $S\subseteq \mathbb{F}^n$ and prepares the uniform superposition
 \[
-\mathsf{pk}=\mathsf{iO}(V_{\mathsf{sk}}),
-\qquad
-\mathrm{Ver}(\rho,\mathsf{pk})=V_{\mathsf{pk}}(\rho),
+|\$_S\rangle=\frac{1}{\sqrt{|S|}}\sum_{x\in S}|x\rangle.
 \]
-while the secret key $\mathsf{sk}$ is still needed to efficiently prepare valid banknotes.
-This route appears in constructions and proposals based on quantum-secure iO, often together with additional assumptions such as sub-exponential LWE \cite{zhandryQuantumLightningNever2017a,shmueliPublicKeyQuantum2022}.
+The Fourier transform of $|\$_S\rangle$ is the uniform superposition over the dual subspace $S^\perp$.
+Thus verification can test membership in $S$, apply the Fourier transform, and then test membership in $S^\perp$.
+To make this verification public without revealing $S$, the public key contains obfuscated membership programs
+\[
+\mathsf{pk}=(\widehat{\mathbf{1}}_S,\widehat{\mathbf{1}}_{S^\perp}),
+\qquad
+\widehat{\mathbf{1}}_S\approx \mathsf{iO}(\mathbf{1}_S),\quad
+\widehat{\mathbf{1}}_{S^\perp}\approx \mathsf{iO}(\mathbf{1}_{S^\perp}).
+\]
+Here the security intuition is not that iO hides an arbitrary verifier circuit, but that the obfuscated membership tests hide enough information about the subspace to prevent preparing an additional copy of $|\$_S\rangle$.
+Shmueli's public-key semi-quantum money construction uses a related subspace-hiding idea, but in a different model: a classical bank interacts with a quantum receiver, and security relies on quantum-secure iO together with sub-exponential LWE \cite{shmueliPublicKeyQuantum2022}.
 
 \paragraph{Group actions.}
 The group-action approach gives a more direct bridge to projectors and Hamiltonians.
-Let a finite group $G$ act on a finite set $X$, written $g \star x$.
-This action defines a unitary representation on the Hilbert space spanned by $\{\ket{x}:x\in X\}$:
+In Zhandry's abelian construction, an abelian group $G$ acts on a finite set $X$, written $g\star x$.
+For a starting element $x\in X$, the mint creates a superposition over group actions and then Fourier samples a group label $h$.
+The resulting serial number is $h$, and the banknote has the form
+\[
+|G_h\star x\rangle
+=\frac{1}{\sqrt{|G|}}\sum_{g\in G}\chi(g,h)\ket{g\star x},
+\]
+where $\chi(g,h)$ is the relevant character of the abelian group \cite{zhandryQuantumMoneyAbelian2025}.
+Public verification applies the group action in superposition and uses a quantum Fourier transform to check that the measured label is the claimed serial number $h$.
+The security of this abelian construction is proved in the generic group-action model under strengthened group-action hardness assumptions, and Doliskani gives a related generic-model standard-assumption direction \cite{doliskaniPublicKeyQuantum2025}.
+
+Bostanci, Nehoran, and Zhandry generalize the picture to non-Abelian group actions and express verification representation-theoretically \cite{bostanciGeneralQuantumDuality2025}.
+The action defines a unitary representation on the Hilbert space spanned by $\{\ket{x}:x\in X\}$:
 \[
 R(g)=\sum_{x\in X}\ket{g\star x}\bra{x}.
 \]
-For an irreducible representation $\lambda$ of $G$, with dimension $d_\lambda$ and character $\chi_\lambda$, the corresponding Fourier-isotypic projector is
+For an irreducible representation $\lambda$ of $G$, a minted money state has the form
+\[
+|\$_{\lambda,i,j}\rangle
+=\sqrt{\frac{d_\lambda}{|G|}}
+\sum_{g\in G}\rho_\lambda(g^{-1})_{i,j}\ket{g\star x}.
+\]
+Verification checks whether the state lies in the corresponding Fourier or isotypic subspace.
+At the level of projectors, the verifier can be summarized by the Fourier-isotypic projector
 \[
 P_\lambda=\frac{d_\lambda}{|G|}
 \sum_{g\in G}\chi_\lambda(g)^*R(g).
 \]
-In the group-action quantum money picture, the serial number is associated with $\lambda$, and a valid banknote is a state in the image of $P_\lambda$.
-Public verification can therefore be viewed as checking whether the state has large overlap with this projector:
+Here $d_\lambda$ is the dimension of $\lambda$ and $\chi_\lambda$ is its character.
+The serial number is the irrep label $\lambda$, and a valid banknote lies in the corresponding accepting subspace.
+This gives a non-local Hamiltonian whose ground space is the valid money subspace:
 \[
-\mathrm{Ver}(\rho,\lambda)=\top
-\quad \text{if} \quad
-\operatorname{Tr}(P_\lambda \rho)\approx 1.
+H_\lambda=I-P_\lambda,
+\qquad
+\operatorname{Tr}(P_\lambda\rho)\approx 1
+\ \Longleftrightarrow\
+\rho \text{ has low energy with respect to } H_\lambda.
 \]
-This immediately gives a Hamiltonian whose ground space is the valid money subspace,
-\[
-H_\lambda=I-P_\lambda.
-\]
-The security of this route is based on assumptions about the hardness of manipulating the group action, such as generic group-action hardness or pre-action security \cite{zhandryQuantumMoneyAbelian2025,doliskaniPublicKeyQuantum2025,bostanciGeneralQuantumDuality2025}.
+In the non-Abelian setting, the relevant plain-model security assumption is pre-action security; this assumption only becomes meaningful once actions and pre-actions differ, which is why the non-Abelian generalization is important.
 
 \paragraph{Circuit-to-Hamiltonian Transformation:}
 Both representative routes provide public verification procedures, either as circuits or as projectors.
